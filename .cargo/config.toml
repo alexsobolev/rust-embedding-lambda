@@ -1,0 +1,18 @@
+# ARM64 Graviton2-specific optimizations
+# Graviton2 uses AWS-designed Neoverse-N1 cores
+
+[target.aarch64-unknown-linux-gnu]
+rustflags = [
+    # Target Graviton2 (Neoverse-N1) CPU with all features
+    "-C", "target-cpu=neoverse-n1",
+
+    # Enable NEON SIMD instructions (ARM's equivalent to SSE/AVX)
+    "-C", "target-feature=+neon",
+
+    # Additional performance flags
+    "-C", "link-arg=-fuse-ld=lld",  # Use LLD linker (faster)
+]
+
+[build]
+# Use all available CPU cores for compilation
+jobs = 4
