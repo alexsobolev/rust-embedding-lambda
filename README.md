@@ -2,7 +2,7 @@
 
 A high-performance, cost-effective AWS Lambda function written in Rust that generates text embeddings using **EmbeddingGemma**.
 
-This repository was created as a companion project for the article on implementing serverless embeddings with Rust and AWS Lambda.
+This repository was created as a companion project for the article [EmbeddingGemma Inference on AWS Lambda: Rust, Quantization, and Graviton Performance](https://sobolev.substack.com/p/embeddinggemma-inference-on-aws-lambda).
 
 ## Overview
 
@@ -44,6 +44,25 @@ embedding-lambda/
 - [Cargo Lambda](https://www.cargo-lambda.info/guide/installation.html)
 - [Docker](https://www.docker.com/)
 
+### Model Setup
+
+Before running or deploying, you must download the model and tokenizer files into the `model/` directory:
+
+1.  **Download from Hugging Face**:
+    Visit [onnx-community/embeddinggemma-300m-ONNX](https://huggingface.co/onnx-community/embeddinggemma-300m-ONNX) and download the following files:
+    - `onnx/model_quantized.onnx` (save as `model/model_quantized.onnx`)
+    - `onnx/model_quantized.onnx_data` (save as `model/model_quantized.onnx_data`)
+    - `tokenizer.json` (save as `model/tokenizer.json`)
+
+Alternatively, use `huggingface-cli`:
+```bash
+mkdir -p model
+huggingface-cli download onnx-community/embeddinggemma-300m-ONNX onnx/model_quantized.onnx --local-dir model --local-dir-use-symlinks False
+huggingface-cli download onnx-community/embeddinggemma-300m-ONNX onnx/model_quantized.onnx_data --local-dir model --local-dir-use-symlinks False
+huggingface-cli download onnx-community/embeddinggemma-300m-ONNX tokenizer.json --local-dir model --local-dir-use-symlinks False
+mv model/onnx/model_quantized.onnx model/ && mv model/onnx/model_quantized.onnx_data model/ && rm -rf model/onnx
+```
+
 ### Local Development
 
 1. **Start the local Lambda server**:
@@ -82,4 +101,4 @@ To update existing code and infrastructure:
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details (if applicable).
+This project is licensed under the MIT License.
