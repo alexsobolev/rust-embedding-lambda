@@ -1,4 +1,5 @@
-# Embedding Lambda
+# EmbeddingGemma with Rust and AWS Lambda
+
 
 A high-performance, cost-effective AWS Lambda function written in Rust that generates text embeddings using **EmbeddingGemma**.
 
